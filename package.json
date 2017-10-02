@@ -14,7 +14,6 @@
     "devDependencies": {
         "async": "^2.5.0",
         "bignumber.js": "^4.0.2",
-        "coveralls": "^3.0.0",
         "eslint": "^3.19.0",
         "eslint-config-airbnb": "^14.1.0",
         "eslint-config-standard": "^10.2.1",
@@ -36,6 +35,7 @@
     },
     "dependencies": {
         "babel-eslint": "^8.0.1",
+        "codecov": "^2.3.0",
         "jsonfile": "^3.0.1",
         "solium": "^0.5.5"
     },
@@ -49,6 +49,7 @@
         "test": "truffle test",
         "lint": "solium --dir contracts && eslint test",
         "coverage": "./node_modules/.bin/solidity-coverage",
-        "qa": "npm run lint && npm run coverage && cat coverage/lcov.info | coveralls"
+        "qa": "npm run lint && npm run coverage",
+	"travis" : "npm run qa && ./node_modules/.bin/codecov"
     }
 }
