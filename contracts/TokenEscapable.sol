@@ -5,7 +5,6 @@ import "./ERC20.sol";
 
 contract TokenEscapable is Escapable {
 
-    bool private escapeBlacklistInitialized;
     mapping (address=>bool) private escapeBlacklist;
 
     /// @notice The Constructor assigns the `escapeHatchDestination` and the
@@ -29,6 +28,10 @@ contract TokenEscapable is Escapable {
             escapeBlacklist[_tokens[i]] = true;
         }
         EscapeHatchBlackistedTokens(_tokens);
+    }
+
+    function isTokenEscapable(address _token) public returns (bool) {
+        return escapeBlacklist[_token];
     }
 
     /// @notice The `escapeHatch()` should only be called as a last resort if a
