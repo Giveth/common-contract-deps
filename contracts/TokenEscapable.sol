@@ -23,22 +23,20 @@ contract TokenEscapable is Escapable {
 
     /// @notice The `blacklistEscapeTokens()` marks a token in a whitelist to be
     ///   escaped. The proupose is to be done at construction time.
-    /// @param _tokens the 
-    function blacklistEscapeTokens(address[] _tokens) internal {
-        for (uint i = 0 ; i < _tokens.length ; i++) {
-            escapeBlacklist[_tokens[i]] = true;
-        }
-        EscapeHatchBlackistedTokens(_tokens);
+    /// @param _token the be bloacklisted for escape
+    function blacklistEscapeToken(address _token) internal {
+        escapeBlacklist[_token] = true;
+        EscapeHatchBlackistedToken(_token);
     }
 
-    function isTokenEscapable(address _token) public returns (bool) {
+    function isTokenEscapable(address _token) constant public returns (bool) {
         return escapeBlacklist[_token];
     }
 
     /// @notice The `escapeHatch()` should only be called as a last resort if a
     /// security issue is uncovered or something unexpected happened
     /// @param _token to transfer, use 0x0 for ethers
-    function escapeHatch(address _token) public onlyEscapeHatchCallerOrOwner {   
+    function escapeHatchToken(address _token) public onlyEscapeHatchCallerOrOwner {   
         require(escapeBlacklist[_token]==false);
 
         uint256 balance;
@@ -59,9 +57,9 @@ contract TokenEscapable is Escapable {
     /// @notice The `escapeHatch()` should only be called as a last resort if a
     /// security issue is uncovered or something unexpected happened
     function escapeHatch() public onlyEscapeHatchCallerOrOwner {
-        escapeHatch(0x0);
+        escapeHatchToken(0x0);
     } 
 
-    event EscapeHatchBlackistedTokens(address[] tokens);
+    event EscapeHatchBlackistedToken(address token);
     event EscapeHatchCalled(address token, uint amount);
 }

@@ -33,7 +33,7 @@ contract("Escapable", (accounts) => {
 
     it("prevent non-authorized call to escapeHatch()", async () => {
         try {
-            await escapable.escapeHatch(0, { from: someoneaddr });
+            await escapable.escapeHatch({ from: someoneaddr });
         } catch (error) {
             return assertFail(error);
         }
