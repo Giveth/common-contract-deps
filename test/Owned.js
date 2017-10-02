@@ -9,7 +9,7 @@ const Owned = artifacts.require("../contracts/Owned.sol");
 contract("Owned", (accounts) => {
     let owned;
 
-   const {
+    const {
         0: owner1,
         1: owner2,
         3: someoneaddr,
@@ -20,7 +20,7 @@ contract("Owned", (accounts) => {
     });
 
     it("should have an owner assigned to msg.sender initially", async () => {
-        assert.equal((await owned.owner()),owner1);
+        assert.equal((await owned.owner()), owner1);
     });
 
     it("changes owner after changeOwner call, and a log is genearated", async () => {
@@ -113,5 +113,4 @@ contract("Owned", (accounts) => {
         }
         assert.fail("should have thrown before");
     });
-
 });

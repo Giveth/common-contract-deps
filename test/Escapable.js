@@ -11,6 +11,7 @@ contract("Escapable", (accounts) => {
     const ONEWEI = web3.toBigNumber("1");
 
     const {
+        0: owner,
         1: escapeHatchCaller,
         2: escapeHatchDestination,
         3: someoneaddr,
@@ -59,18 +60,29 @@ contract("Escapable", (accounts) => {
         const balance = web3.eth.getBalance(escapeHatchDestination);
         await escapable.send(ONEWEI, { from: someoneaddr });
 
-        const result = await escapable.escapeHatch(0,{
+        const result = await escapable.escapeHatch({
             from: escapeHatchCaller,
         });
         assert.equal(result.logs.length, 1);
         assert.equal(result.logs[ 0 ].event, "EscapeHatchCalled");
         assert.equal(result.logs[ 0 ].args.amount, "1");
-        assert.equal(result.logs[ 0 ].args.destination, escapeHatchDestination);
 
         assert.isTrue(
-      web3.eth
-        .getBalance(escapeHatchDestination)
-        .equals(balance.plus(ONEWEI)),
-    );
+            web3.eth.getBalance(escapeHatchDestination).equals(balance.plus(ONEWEI)));
+    });
+
+    it("owner can escapeHatch()", async () => {
+        const balance = web3.eth.getBalance(escapeHatchDestination);
+        await escapable.send(ONEWEI, { from: someoneaddr });
+
+        const result = await escapable.escapeHatch({
+            from: owner,
+        });
+        assert.equal(result.logs.length, 1);
+        assert.equal(result.logs[ 0 ].event, "EscapeHatchCalled");
+        assert.equal(result.logs[ 0 ].args.amount, "1");
+
+        assert.isTrue(
+            web3.eth.getBalance(escapeHatchDestination).equals(balance.plus(ONEWEI)));
     });
 });

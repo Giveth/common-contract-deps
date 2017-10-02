@@ -3,6 +3,7 @@ pragma solidity ^0.4.15;
 import "./Escapable.sol";
 import "./ERC20.sol";
 
+
 contract TokenEscapable is Escapable {
 
     mapping (address=>bool) private escapeBlacklist;
@@ -24,7 +25,7 @@ contract TokenEscapable is Escapable {
     ///   escaped. The proupose is to be done at construction time.
     /// @param _tokens the 
     function blacklistEscapeTokens(address[] _tokens) internal {
-        for (uint i=0;i<_tokens.length;i++) {
+        for (uint i = 0 ; i < _tokens.length ; i++) {
             escapeBlacklist[_tokens[i]] = true;
         }
         EscapeHatchBlackistedTokens(_tokens);
@@ -37,12 +38,12 @@ contract TokenEscapable is Escapable {
     /// @notice The `escapeHatch()` should only be called as a last resort if a
     /// security issue is uncovered or something unexpected happened
     /// @param _token to transfer, use 0x0 for ethers
-    function escapeHatch(address _token) public onlyEscapeHatchCaller {   
-       require(escapeBlacklist[_token]==false);
+    function escapeHatch(address _token) public onlyEscapeHatchCallerOrOwner {   
+        require(escapeBlacklist[_token]==false);
 
-       uint256 balance;
+        uint256 balance;
 
-       if (_token == 0x0) {
+        if (_token == 0x0) {
             balance = this.balance;
             escapeHatchDestination.transfer(balance);
             EscapeHatchCalled(_token, balance);
@@ -57,7 +58,7 @@ contract TokenEscapable is Escapable {
 
     /// @notice The `escapeHatch()` should only be called as a last resort if a
     /// security issue is uncovered or something unexpected happened
-    function escapeHatch() public onlyEscapeHatchCaller {
+    function escapeHatch() public onlyEscapeHatchCallerOrOwner {
         escapeHatch(0x0);
     } 
 

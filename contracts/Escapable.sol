@@ -1,7 +1,3 @@
-pragma solidity ^0.4.15;
-
-import "./Owned.sol";
-
 /*
     Copyright 2016, Jordi Baylina
 
@@ -17,7 +13,11 @@ import "./Owned.sol";
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+*/
+
+pragma solidity ^0.4.15;
+
+import "./Owned.sol";
 
 
 /// @dev `Escapable` is a base level contract built off of the `Owned`
@@ -45,10 +45,6 @@ contract Escapable is Owned {
         require ((msg.sender == escapeHatchCaller)||(msg.sender == owner));
         _;
     }
-    modifier onlyEscapeHatchCaller {
-        require (msg.sender == escapeHatchCaller);
-        _;
-    }
 
     /// @notice The `escapeHatch()` should only be called as a last resort if a
     /// security issue is uncovered or something unexpected happened
@@ -58,6 +54,7 @@ contract Escapable is Owned {
         escapeHatchDestination.transfer(total);
         EscapeHatchCalled(total);
     }
+
     /// @notice Changes the address assigned to call `escapeHatch()`
     /// @param _newEscapeHatchCaller The address of a trusted account or contract to
     ///  call `escapeHatch()` to send the ether in this contract to the
