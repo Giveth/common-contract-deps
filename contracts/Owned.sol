@@ -1,8 +1,8 @@
 pragma solidity ^0.4.15;
 
 
-/// @title SafeOwned
-/// @dev The SafeOwned contract has an owner address, and provides basic authorization control functions, this simplifies
+/// @title Owned
+/// @dev The Owned contract has an owner address, and provides basic authorization control functions, this simplifies
 /// & the implementation of "user permissions".
 contract Owned {
 
