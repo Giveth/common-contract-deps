@@ -1,29 +1,62 @@
 pragma solidity ^0.4.15;
 
 
-/// @dev `Owned` is a base level contract that assigns an `owner` that can be
-///  later changed
+/// @title SafeOwned
+/// @dev The SafeOwned contract has an owner address, and provides basic authorization control functions, this simplifies
+/// & the implementation of "user permissions".
 contract Owned {
-    /// @dev `owner` is the only address that can call a function with this
-    /// modifier
-    modifier onlyOwner {
+
+    address public owner;
+    address public newOwnerCandidate;
+
+    event OwnershipRequested(address indexed by, address indexed to);
+    event OwnershipTransferred(address indexed from, address indexed to);
+    event OwnershipRemoved();
+
+    /// @dev The Ownable constructor sets the original `owner` of the contract to the sender account.
+    function Owned() {
+        owner = msg.sender;
+    }
+
+    /// @dev Throws if called by any account other than the owner.
+    modifier onlyOwner() {
         require (msg.sender == owner);
         _;
     }
 
-    address public owner;
-
-    /// @notice The Constructor assigns the message sender to be `owner`
-    function Owned() { owner = msg.sender;}
-
     /// @notice `owner` can step down and assign some other address to this role
-    /// @param _newOwner The address of the new owner. 0x0 can be used to create
-    ///  an unowned neutral vault, however that cannot be undone
-    function changeOwner(address _newOwner) onlyOwner {
+    /// @param _newOwner The address of the new owner.
+    function changeOwnership(address _newOwner) onlyOwner {
+        require(_newOwner != 0x0);
+        OwnershipTransferred(owner, _newOwner);
         owner = _newOwner;
-        NewOwner(msg.sender, _newOwner);
+        newOwnerCandidate = 0x0;
     }
 
-    event NewOwner(address indexed oldOwner, address indexed newOwner);
-}
+    /// @dev Proposes to transfer control of the contract to a newOwnerCandidate.
+    /// @param _newOwnerCandidate address The address to transfer ownership to.
+    function proposeOwnership(address _newOwnerCandidate) onlyOwner {
+        newOwnerCandidate = _newOwnerCandidate;
+        OwnershipRequested(msg.sender, newOwnerCandidate);
+    }
 
+    /// @dev Accept ownership transfer. This method needs to be called by the perviously proposed owner.
+    function acceptOwnership() {
+        require(msg.sender == newOwnerCandidate);
+        OwnershipTransferred(owner, newOwnerCandidate);
+        owner = newOwnerCandidate;
+        newOwnerCandidate = 0x0;
+    }
+
+    /// @dev Removes the ownership of the contract. Since this operation cannot be
+    ///      undone in any way, 0xdece (ntralized) is requiered aa a confirmation
+    ///      parameter
+    /// @param _dece The 0xdece address
+    function removeOwnership(address _dece) onlyOwner {
+        require(_dece == 0xdece);
+        owner = 0x0;
+        newOwnerCandidate = 0x0;
+        OwnershipRemoved();     
+    }
+
+} 

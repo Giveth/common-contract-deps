@@ -1,3 +1,7 @@
+pragma solidity ^0.4.15;
+
+import "./Owned.sol";
+
 /*
     Copyright 2016, Jordi Baylina
 
@@ -15,11 +19,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.4.15;
 
-import "./Owned.sol";
-
-
+/// @dev `Escapable` is a base level contract built off of the `Owned`
+///  contract that creates an escape hatch function to send its ether to
+///  `escapeHatchDestination` when called by the `escapeHatchCaller` in the case that
+///  something unexpected happens
 contract Escapable is Owned {
     address public escapeHatchCaller;
     address public escapeHatchDestination;
@@ -37,10 +41,12 @@ contract Escapable is Owned {
         escapeHatchDestination = _escapeHatchDestination;
     }
 
-    /// @dev The addresses preassigned the `escapeHatchCaller` role
-    ///  is the only addresses that can call a function with this modifier
     modifier onlyEscapeHatchCallerOrOwner {
         require ((msg.sender == escapeHatchCaller)||(msg.sender == owner));
+        _;
+    }
+    modifier onlyEscapeHatchCaller {
+        require (msg.sender == escapeHatchCaller);
         _;
     }
 
@@ -52,7 +58,6 @@ contract Escapable is Owned {
         escapeHatchDestination.transfer(total);
         EscapeHatchCalled(total);
     }
-    
     /// @notice Changes the address assigned to call `escapeHatch()`
     /// @param _newEscapeHatchCaller The address of a trusted account or contract to
     ///  call `escapeHatch()` to send the ether in this contract to the

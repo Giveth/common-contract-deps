@@ -32,7 +32,7 @@ contract("Escapable", (accounts) => {
 
     it("prevent non-authorized call to escapeHatch()", async () => {
         try {
-            await escapable.escapeHatch({ from: someoneaddr });
+            await escapable.escapeHatch(0, { from: someoneaddr });
         } catch (error) {
             return assertFail(error);
         }
@@ -59,12 +59,13 @@ contract("Escapable", (accounts) => {
         const balance = web3.eth.getBalance(escapeHatchDestination);
         await escapable.send(ONEWEI, { from: someoneaddr });
 
-        const result = await escapable.escapeHatch({
+        const result = await escapable.escapeHatch(0,{
             from: escapeHatchCaller,
         });
         assert.equal(result.logs.length, 1);
         assert.equal(result.logs[ 0 ].event, "EscapeHatchCalled");
         assert.equal(result.logs[ 0 ].args.amount, "1");
+        assert.equal(result.logs[ 0 ].args.destination, escapeHatchDestination);
 
         assert.isTrue(
       web3.eth
