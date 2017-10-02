@@ -14,14 +14,6 @@
     "devDependencies": {
         "async": "^2.5.0",
         "bignumber.js": "^4.0.2",
-        "ethereumjs-testrpc": "^4.1.1",
-        "ethereumjs-testrpc-sc": "git+https://github.com/sc-forks/testrpc-sc.git",
-        "random-bytes": "^1.0.0",
-        "solc": "^0.4.15",
-        "solidity-coverage": "^0.2.3",
-        "solidity-parser": "^0.4.0",
-        "truffle": "^3.4.9",
-        "web3": "^0.19.1",
         "eslint": "^3.19.0",
         "eslint-config-airbnb": "^14.1.0",
         "eslint-config-standard": "^10.2.1",
@@ -31,7 +23,15 @@
         "eslint-plugin-node": "^4.2.2",
         "eslint-plugin-promise": "^3.5.0",
         "eslint-plugin-react": "^6.10.3",
-        "eslint-plugin-standard": "^3.0.1"
+        "eslint-plugin-standard": "^3.0.1",
+        "ethereumjs-testrpc": "^4.1.1",
+        "ethereumjs-testrpc-sc": "git+https://github.com/sc-forks/testrpc-sc.git",
+        "random-bytes": "^1.0.0",
+        "solc": "^0.4.15",
+        "solidity-coverage": "^0.2.4",
+        "solidity-parser": "^0.4.0",
+        "truffle": "^3.4.9",
+        "web3": "^0.19.1"
     },
     "dependencies": {
         "babel-eslint": "^8.0.1",
