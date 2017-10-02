@@ -28,9 +28,12 @@ contract Owned {
     /// @param _newOwner The address of the new owner.
     function changeOwnership(address _newOwner) onlyOwner {
         require(_newOwner != 0x0);
-        OwnershipTransferred(owner, _newOwner);
+
+        address oldOwner = owner;
         owner = _newOwner;
         newOwnerCandidate = 0x0;
+
+        OwnershipTransferred(oldOwner, owner);
     }
 
     /// @dev Proposes to transfer control of the contract to a newOwnerCandidate.
@@ -43,9 +46,12 @@ contract Owned {
     /// @dev Accept ownership transfer. This method needs to be called by the perviously proposed owner.
     function acceptOwnership() {
         require(msg.sender == newOwnerCandidate);
-        OwnershipTransferred(owner, newOwnerCandidate);
+
+        address oldOwner = owner;
         owner = newOwnerCandidate;
         newOwnerCandidate = 0x0;
+
+        OwnershipTransferred(oldOwner, owner);
     }
 
     /// @dev Removes the ownership of the contract. Since this operation cannot be
