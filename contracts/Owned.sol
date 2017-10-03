@@ -13,7 +13,7 @@ contract Owned {
 
     event OwnershipRequested(address indexed by, address indexed to);
     event OwnershipTransferred(address indexed from, address indexed to);
-    event OwnershipRemoved();
+    event OwnershipDecentralized();
 
     /// @dev The constructor sets the `msg.sender` as the`owner` of the contract
     function Owned() {
@@ -60,12 +60,13 @@ contract Owned {
     }
 
     /// @notice Decentralizes the contract, this operation cannot be undone 
-    /// @param _dece `0xdece` has to be entered for this function to work
-    function removeOwnership(address _dece) onlyOwner {
-        require(_dece == 0xdece);
+    /// @param _decentralize `0xdecentralize` has to be entered for this
+    ///  function to work
+    function removeOwnership(address _decentralize) onlyOwner {
+        require(_decentralize == 0xdecentralize);
         owner = 0x0;
         newOwnerCandidate = 0x0;
-        OwnershipRemoved();     
+        OwnershipDecentralized();     
     }
 
 } 
