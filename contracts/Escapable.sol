@@ -18,6 +18,7 @@
 pragma solidity ^0.4.15;
 
 import "./Owned.sol";
+import "./ERC20.sol";
 
 
 /// @dev `Escapable` is a base level contract built off of the `Owned`
@@ -27,6 +28,7 @@ import "./Owned.sol";
 contract Escapable is Owned {
     address public escapeHatchCaller;
     address public escapeHatchDestination;
+    mapping (address=>bool) private escapeBlacklist;
 
     /// @notice The Constructor assigns the `escapeHatchDestination` and the
     ///  `escapeHatchCaller`
@@ -46,15 +48,39 @@ contract Escapable is Owned {
         _;
     }
 
-    /// @notice The `escapeHatch()` should only be called as a last resort if a
-    /// security issue is uncovered or something unexpected happened
-    function escapeHatch() onlyEscapeHatchCallerOrOwner {
-        uint total = this.balance;
-        // Send the total balance of this contract to the `escapeHatchDestination`
-        escapeHatchDestination.transfer(total);
-        EscapeHatchCalled(total);
+    /// @notice The `blacklistEscapeTokens()` marks a token in a whitelist to be
+    ///   escaped. The proupose is to be done at construction time.
+    /// @param _token the be bloacklisted for escape
+    function blacklistEscapeToken(address _token) internal {
+        escapeBlacklist[_token] = true;
+        EscapeHatchBlackistedToken(_token);
     }
 
+    function isTokenEscapable(address _token) constant public returns (bool) {
+        return !escapeBlacklist[_token];
+    }
+
+    /// @notice The `escapeHatch()` should only be called as a last resort if a
+    /// security issue is uncovered or something unexpected happened
+    /// @param _token to transfer, use 0x0 for ethers
+    function escapeHatch(address _token) public onlyEscapeHatchCallerOrOwner {   
+        require(escapeBlacklist[_token]==false);
+
+        uint256 balance;
+
+        if (_token == 0x0) {
+            balance = this.balance;
+            escapeHatchDestination.transfer(balance);
+            EscapeHatchCalled(_token, balance);
+            return;
+        }
+
+        ERC20 token = ERC20(_token);
+        balance = token.balanceOf(this);
+        token.transfer(escapeHatchDestination, balance);
+        EscapeHatchCalled(_token, balance);
+    }
+    
     /// @notice Changes the address assigned to call `escapeHatch()`
     /// @param _newEscapeHatchCaller The address of a trusted account or contract to
     ///  call `escapeHatch()` to send the ether in this contract to the
@@ -64,5 +90,6 @@ contract Escapable is Owned {
         escapeHatchCaller = _newEscapeHatchCaller;
     }
 
-    event EscapeHatchCalled(uint amount);
+    event EscapeHatchBlackistedToken(address token);
+    event EscapeHatchCalled(address token, uint amount);
 }
