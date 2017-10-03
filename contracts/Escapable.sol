@@ -1,5 +1,6 @@
 /*
     Copyright 2016, Jordi Baylina
+    Contributor: Adrià Massanet <adria@codecontext.io>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -80,7 +81,7 @@ contract Escapable is Owned {
         token.transfer(escapeHatchDestination, balance);
         EscapeHatchCalled(_token, balance);
     }
-    
+
     /// @notice Changes the address assigned to call `escapeHatch()`
     /// @param _newEscapeHatchCaller The address of a trusted account or contract to
     ///  call `escapeHatch()` to send the ether in this contract to the

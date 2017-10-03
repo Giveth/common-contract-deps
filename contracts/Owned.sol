@@ -2,7 +2,7 @@ pragma solidity ^0.4.15;
 
 
 /// @title Owned
-/// @author Adria Massanet
+/// @author Adrià Massanet <adria@codecontext.io>
 /// @notice The Owned contract has an owner address, and provides basic 
 ///  authorization control functions, this simplifies & the implementation of
 ///  "user permissions"
