@@ -90,15 +90,15 @@ contract("Owned", (accounts) => {
     });
 
     it("ownership can be removed", async () => {
-        const result = await owned.removeOwnership(0xdece);
+        const result = await owned.removeOwnership(0xdac);
         assert.equal(await owned.owner(), 0);
         assert.equal(result.logs.length, 1);
         assert.equal(result.logs[ 0 ].event, "OwnershipRemoved");
     });
 
-    it("ownership cannot be removed without using 0xdece parameter", async () => {
+    it("ownership cannot be removed without using 0xdac parameter", async () => {
         try {
-            await owned.removeOwnership(0xdece1);
+            await owned.removeOwnership(0xdac1);
         } catch (error) {
             return assertFail(error);
         }
@@ -107,7 +107,7 @@ contract("Owned", (accounts) => {
 
     it("ownership cannot be removed by non-owner", async () => {
         try {
-            await owned.removeOwnership(0xdece, { from: someoneaddr });
+            await owned.removeOwnership(0xdac, { from: someoneaddr });
         } catch (error) {
             return assertFail(error);
         }
