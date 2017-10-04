@@ -60,7 +60,7 @@ contract Owned {
 
         OwnershipTransferred(oldOwner, owner);
     }
-/*    
+*/    
 
     /// @notice Decentralizes the contract, this operation cannot be undone 
     /// @param _dece `0xdece` has to be entered for this function to work
