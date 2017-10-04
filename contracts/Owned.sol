@@ -47,10 +47,9 @@ contract Owned {
         OwnershipTransferred(oldOwner, owner);
     }
 
-/* Commented out the automated change of ownership function, but it is an option
-
     /// @notice `owner` can step down and assign some other address to this role
-    /// @param _newOwner The address of the new owner.
+    ///  without requiring permission from `_newOwner`
+    /// @param _newOwner The address of the new owner
     function changeOwnership(address _newOwner) onlyOwner {
         require(_newOwner != 0x0);
 
@@ -60,8 +59,7 @@ contract Owned {
 
         OwnershipTransferred(oldOwner, owner);
     }
-*/    
-
+   
     /// @notice Decentralizes the contract, this operation cannot be undone 
     /// @param _dece `0xdece` has to be entered for this function to work
     function removeOwnership(address _dece) onlyOwner {
