@@ -52,9 +52,10 @@ contract Escapable is Owned {
         _;
     }
 
-    /// @notice Creates the blacklist of tokens that are not supposed to be able
-    ///  to be taken out of the contract; can only be done at the deployment
-    /// @param _token the be blacklisted 
+    /// @notice Creates the blacklist of tokens that are not able to be taken
+    ///  out of the contract; can only be done at the deployment, and the logic
+    ///  to add to the blacklist will be in the constructor of a child contract
+    /// @param _token the token contract address that is to be blacklisted 
     function blacklistEscapeToken(address _token) internal {
         escapeBlacklist[_token] = true;
         EscapeHatchBlackistedToken(_token);
