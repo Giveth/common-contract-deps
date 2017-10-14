@@ -87,7 +87,7 @@ contract Escapable is Owned {
     ///  call `escapeHatch()` to send the ether in this contract to the
     ///  `escapeHatchDestination` it would be ideal that `escapeHatchCaller` cannot
     ///  move funds out of `escapeHatchDestination`
-    function changeEscapeCaller(address _newEscapeHatchCaller) onlyEscapeHatchCallerOrOwner {
+    function changeHatchEscapeCaller(address _newEscapeHatchCaller) onlyEscapeHatchCallerOrOwner {
         escapeHatchCaller = _newEscapeHatchCaller;
     }
 
