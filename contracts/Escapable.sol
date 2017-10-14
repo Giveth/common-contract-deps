@@ -20,6 +20,7 @@ pragma solidity ^0.4.15;
 import "./Owned.sol";
 import "./ERC20.sol";
 
+
 /// @dev `Escapable` is a base level contract built off of the `Owned`
 ///  contract; it creates an escape hatch function that can be called in an
 ///  emergency that will allow designated addresses to send any ether or tokens
