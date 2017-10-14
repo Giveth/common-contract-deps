@@ -22,8 +22,9 @@ import "./ERC20.sol";
 
 /// @dev `Escapable` is a base level contract built off of the `Owned`
 ///  contract; it creates an escape hatch function that can be called in an
-///  emergency that will send any ether or tokens held in the contract to
-///  `escapeHatchDestination` 
+///  emergency that will allow designated addresses to send any ether or tokens
+///  held in the contract to an `escapeHatchDestination` as long as they were
+///  not blacklisted
 contract Escapable is Owned {
     address public escapeHatchCaller;
     address public escapeHatchDestination;
@@ -44,6 +45,8 @@ contract Escapable is Owned {
         escapeHatchDestination = _escapeHatchDestination;
     }
 
+    /// @dev The addresses preassigned as `escapeHatchCaller` or `owner`
+    ///  are the only addresses that can call a function with this modifier
     modifier onlyEscapeHatchCallerOrOwner {
         require ((msg.sender == escapeHatchCaller)||(msg.sender == owner));
         _;
