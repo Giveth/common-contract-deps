@@ -94,10 +94,10 @@ contract Escapable is Owned {
 
     /// @notice Changes the address assigned to call `escapeHatch()`
     /// @param _newEscapeHatchCaller The address of a trusted account or
-    ///  contract to call `escapeHatch()` to send the ether in this contract to
-    ///  the `escapeHatchDestination` it would be ideal that `escapeHatchCaller`
+    ///  contract to call `escapeHatch()` to send the value in this contract to
+    ///  the `escapeHatchDestination`; it would be ideal that `escapeHatchCaller`
     ///  cannot move funds out of `escapeHatchDestination`
-    function changeEscapeCaller(address _newEscapeHatchCaller) onlyEscapeHatchCallerOrOwner {
+    function changeHatchEscapeCaller(address _newEscapeHatchCaller) onlyEscapeHatchCallerOrOwner {
         escapeHatchCaller = _newEscapeHatchCaller;
     }
 

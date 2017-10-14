@@ -72,9 +72,9 @@ contract Owned {
     ///  be called and it will immediately assign ownership to the 0x0 address;
     ///  it requires a 0xdece be input as a parameter to prevent accidental use
     /// @notice Decentralizes the contract, this operation cannot be undone 
-    /// @param _dece `0xdece` has to be entered for this function to work
-    function removeOwnership(address _dece) onlyOwner {
-        require(_dece == 0xdece);
+    /// @param _dac `0xdac` has to be entered for this function to work
+    function removeOwnership(address _dac) onlyOwner {
+        require(_dac == 0xdac);
         owner = 0x0;
         newOwnerCandidate = 0x0;
         OwnershipRemoved();     

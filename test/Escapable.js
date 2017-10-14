@@ -35,19 +35,19 @@ contract("Escapable", (accounts) => {
         assert.equal(await escapable.escapeHatchDestination(), escapeHatchDestination);
     });
 
-    // / --- changeEscapeHatchCaller
+    // / --- changeHatchEscapeCaller
 
-    it("prevent non-authorized call to changeEscapeHatchCaller()", async () => {
+    it("prevent non-authorized call to changeHatchEscapeCaller()", async () => {
         try {
-            await escapable.changeEscapeCaller(someoneaddr, { from: someoneaddr });
+            await escapable.changeHatchEscapeCaller(someoneaddr, { from: someoneaddr });
         } catch (error) {
             return assertFail(error);
         }
         assert.fail("should have thrown before");
     });
 
-    it("changeEscapeCaller() changes the permission", async () => {
-        await escapable.changeEscapeCaller(someoneaddr, {
+    it("changeHatchEscapeCaller() changes the permission", async () => {
+        await escapable.changeHatchEscapeCaller(someoneaddr, {
             from: escapeHatchCaller,
         });
         assert.equal(await escapable.escapeHatchCaller(), someoneaddr);
