@@ -64,7 +64,7 @@ contract Escapable is Owned {
 
     /// @notice Checks to see if `_token` is in the blacklist of tokens
     /// @param _token the token address being queried
-    /// @returns False if `_token` is in the blacklist and can't be taken out of
+    /// @return False if `_token` is in the blacklist and can't be taken out of
     ///  the contract via the `escapeHatch()`
     function isTokenEscapable(address _token) constant public returns (bool) {
         return !escapeBlacklist[_token];
