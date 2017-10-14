@@ -20,6 +20,7 @@ pragma solidity ^0.4.15;
 import "./Owned.sol";
 import "./ERC20.sol";
 
+
 /// @dev `Escapable` is a base level contract built off of the `Owned`
 ///  contract; it creates an escape hatch function that can be called in an
 ///  emergency that will allow designated addresses to send any ether or tokens
@@ -52,9 +53,10 @@ contract Escapable is Owned {
         _;
     }
 
-    /// @notice Creates the blacklist of tokens that are not supposed to be able
-    ///  to be taken out of the contract; can only be done at the deployment
-    /// @param _token the be blacklisted 
+    /// @notice Creates the blacklist of tokens that are not able to be taken
+    ///  out of the contract; can only be done at the deployment, and the logic
+    ///  to add to the blacklist will be in the constructor of a child contract
+    /// @param _token the token contract address that is to be blacklisted 
     function blacklistEscapeToken(address _token) internal {
         escapeBlacklist[_token] = true;
         EscapeHatchBlackistedToken(_token);
@@ -62,7 +64,7 @@ contract Escapable is Owned {
 
     /// @notice Checks to see if `_token` is in the blacklist of tokens
     /// @param _token the token address being queried
-    /// @returns False if `_token` is in the blacklist and can't be taken out of
+    /// @return False if `_token` is in the blacklist and can't be taken out of
     ///  the contract via the `escapeHatch()`
     function isTokenEscapable(address _token) constant public returns (bool) {
         return !escapeBlacklist[_token];
