@@ -5,7 +5,11 @@ pragma solidity ^0.4.15;
 /// @author Adrià Massanet <adria@codecontext.io>
 /// @notice The Owned contract has an owner address, and provides basic 
 ///  authorization control functions, this simplifies & the implementation of
-///  "user permissions"
+///  user permissions; this contract has three work flows for a change in
+///  ownership, the first requires the new owner to validate that they have the
+///  ability to accept ownership, the second allows the ownership to be
+///  directly transfered without requiring acceptance, and the third allows for
+///  the ownership to be removed to allow for decentralization 
 contract Owned {
 
     address public owner;
@@ -26,19 +30,10 @@ contract Owned {
         require (msg.sender == owner);
         _;
     }
-
-    /// @notice `owner` can step down and assign some other address to this role
-    /// @param _newOwner The address of the new owner.
-    function changeOwnership(address _newOwner) onlyOwner {
-        require(_newOwner != 0x0);
-
-        address oldOwner = owner;
-        owner = _newOwner;
-        newOwnerCandidate = 0x0;
-
-        OwnershipTransferred(oldOwner, owner);
-    }
-
+    
+    /// @dev In this 1st option for ownership transfer `proposeOwnership()` must
+    ///  be called first by the current `owner` then `acceptOwnership()` must be
+    ///  called by the `newOwnerCandidate`
     /// @notice `onlyOwner` Proposes to transfer control of the contract to a
     ///  new owner
     /// @param _newOwnerCandidate The address being proposed as the new owner
@@ -59,6 +54,23 @@ contract Owned {
         OwnershipTransferred(oldOwner, owner);
     }
 
+    /// @dev In this 2nd option for ownership transfer `changeOwnership()` can
+    ///  be called and it will immediately assign ownership to the `newOwner`
+    /// @notice `owner` can step down and assign some other address to this role
+    /// @param _newOwner The address of the new owner
+    function changeOwnership(address _newOwner) onlyOwner {
+        require(_newOwner != 0x0);
+
+        address oldOwner = owner;
+        owner = _newOwner;
+        newOwnerCandidate = 0x0;
+
+        OwnershipTransferred(oldOwner, owner);
+    }
+
+    /// @dev In this 3rd option for ownership transfer `removeOwnership()` can
+    ///  be called and it will immediately assign ownership to the 0x0 address;
+    ///  it requires a 0xdece be input as a parameter to prevent accidental use
     /// @notice Decentralizes the contract, this operation cannot be undone 
     /// @param _dac `0xdac` has to be entered for this function to work
     function removeOwnership(address _dac) onlyOwner {
@@ -67,5 +79,4 @@ contract Owned {
         newOwnerCandidate = 0x0;
         OwnershipRemoved();     
     }
-
 } 
