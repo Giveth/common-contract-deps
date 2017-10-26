@@ -41,7 +41,7 @@ contract Escapable is Owned {
     ///  Multisig) to send the ether held in this contract; if a neutral address
     ///  is required, the WHG Multisig is an option:
     ///  0x8Ff920020c8AD673661c8117f2855C384758C572 
-    function Escapable(address _escapeHatchCaller, address _escapeHatchDestination) {
+    function Escapable(address _escapeHatchCaller, address _escapeHatchDestination) public {
         escapeHatchCaller = _escapeHatchCaller;
         escapeHatchDestination = _escapeHatchDestination;
     }
@@ -97,7 +97,7 @@ contract Escapable is Owned {
     ///  contract to call `escapeHatch()` to send the value in this contract to
     ///  the `escapeHatchDestination`; it would be ideal that `escapeHatchCaller`
     ///  cannot move funds out of `escapeHatchDestination`
-    function changeHatchEscapeCaller(address _newEscapeHatchCaller) onlyEscapeHatchCallerOrOwner {
+    function changeHatchEscapeCaller(address _newEscapeHatchCaller) public onlyEscapeHatchCallerOrOwner {
         escapeHatchCaller = _newEscapeHatchCaller;
     }
 
