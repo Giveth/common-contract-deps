@@ -20,7 +20,7 @@ contract Owned {
     event OwnershipRemoved();
 
     /// @dev The constructor sets the `msg.sender` as the`owner` of the contract
-    function Owned() {
+    function Owned() public {
         owner = msg.sender;
     }
 
@@ -37,14 +37,14 @@ contract Owned {
     /// @notice `onlyOwner` Proposes to transfer control of the contract to a
     ///  new owner
     /// @param _newOwnerCandidate The address being proposed as the new owner
-    function proposeOwnership(address _newOwnerCandidate) onlyOwner {
+    function proposeOwnership(address _newOwnerCandidate) public onlyOwner {
         newOwnerCandidate = _newOwnerCandidate;
         OwnershipRequested(msg.sender, newOwnerCandidate);
     }
 
     /// @notice Can only be called by the `newOwnerCandidate`, accepts the
     ///  transfer of ownership
-    function acceptOwnership() {
+    function acceptOwnership() public {
         require(msg.sender == newOwnerCandidate);
 
         address oldOwner = owner;
@@ -58,7 +58,7 @@ contract Owned {
     ///  be called and it will immediately assign ownership to the `newOwner`
     /// @notice `owner` can step down and assign some other address to this role
     /// @param _newOwner The address of the new owner
-    function changeOwnership(address _newOwner) onlyOwner {
+    function changeOwnership(address _newOwner) public onlyOwner {
         require(_newOwner != 0x0);
 
         address oldOwner = owner;
@@ -73,7 +73,7 @@ contract Owned {
     ///  it requires a 0xdece be input as a parameter to prevent accidental use
     /// @notice Decentralizes the contract, this operation cannot be undone 
     /// @param _dac `0xdac` has to be entered for this function to work
-    function removeOwnership(address _dac) onlyOwner {
+    function removeOwnership(address _dac) public onlyOwner {
         require(_dac == 0xdac);
         owner = 0x0;
         newOwnerCandidate = 0x0;
