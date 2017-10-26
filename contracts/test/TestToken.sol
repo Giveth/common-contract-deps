@@ -8,13 +8,18 @@ contract TestToken is ERC20 {
   
     using SafeMath for uint256;
 
+    bool failOnTransfer;
     uint totalSupply_;
     mapping(address => uint) balances;
     mapping (address => mapping (address => uint)) allowed;
 
-    function TestToken(address _addr, uint256 _amount) {
+    function TestToken(address _addr, uint256 _amount) public {
         balances[_addr] = _amount;
         totalSupply_ = _amount;
+    }
+
+    function setFailOnTransfer(bool _fail) public {
+        failOnTransfer = _fail;
     }
 
     function totalSupply() public constant returns (uint256 supply) {
@@ -22,6 +27,9 @@ contract TestToken is ERC20 {
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {
+        if (failOnTransfer) {
+            return false;
+        }
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
         Transfer(msg.sender, _to, _value);
@@ -29,6 +37,10 @@ contract TestToken is ERC20 {
     }
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+        if (failOnTransfer) {
+            return false;
+        }
+
         var _allowance = allowed[_from][msg.sender];
 
         balances[_from] = balances[_from].sub(_value);

@@ -142,4 +142,20 @@ contract("Escapable", (accounts) => {
         }
         assert.fail("should have thrown before");
     });
+
+    it("throws if token transfer function returns false", async () => {
+        const token = await TestToken.new(owner, 1000);
+        await token.transfer(escapable.address, 1000);
+        assert.equal(await token.balanceOf(escapable.address), 1000);
+
+        try {
+            await token.setFailOnTransfer(true);
+            await escapable.escapeHatch(token.address, {
+                from: escapeHatchCaller,
+            });
+        } catch (error) {
+            return assertFail(error);
+        }
+        assert.fail("should have thrown before");
+    });
 });

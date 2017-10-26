@@ -88,7 +88,7 @@ contract Escapable is Owned {
         /// @dev Logic for tokens
         ERC20 token = ERC20(_token);
         balance = token.balanceOf(this);
-        token.transfer(escapeHatchDestination, balance);
+        require(token.transfer(escapeHatchDestination, balance));
         EscapeHatchCalled(_token, balance);
     }
 
