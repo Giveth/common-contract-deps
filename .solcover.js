@@ -1,12 +1,11 @@
 module.exports = {
-    testCommand: 'truffle test --network coverage',
-    copyNodeModules: true,
+    copyNodeModules: false,
     skipFiles: [
         'SafeMath.sol',
         'ERC20.sol',
         'test/TestToken.sol',
-	'test/TestPayableEscapable.sol',
-	'test/TestPayableTokenEscapable.sol',
-	'helpers/Migrations.sol'
+	    'test/TestPayableEscapable.sol',
+	    'test/TestPayableTokenEscapable.sol',
+	    'helpers/Migrations.sol'
     ]
 }
