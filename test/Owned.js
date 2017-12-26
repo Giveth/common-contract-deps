@@ -23,7 +23,7 @@ contract("Owned", (accounts) => {
         assert.equal((await owned.owner()), owner1);
     });
 
-    it("changes owner after changeOwner call, and a log is genearated", async () => {
+    it("changes owner after changeOwnership call, and a log is genearated", async () => {
         const result = await owned.changeOwnership(someoneaddr);
         assert.isTrue(await owned.owner() === someoneaddr);
 
@@ -34,21 +34,11 @@ contract("Owned", (accounts) => {
     });
 
     it("should prevent non-owners from transfering ownership", async () => {
-        try {
-            await owned.changeOwner(someoneaddr, { from: someoneaddr });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(owned.changeOwnership(someoneaddr, { from: someoneaddr }));
     });
 
     it("should prevent transfering ownership to zero", async () => {
-        try {
-            await owned.changeOwner(0);
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(owned.changeOwnership(0));
     });
 
     it("changes owner after proposeOwnership & acceptOwnership call, and a log is genearated", async () => {
@@ -71,22 +61,11 @@ contract("Owned", (accounts) => {
     });
 
     it("non-owners cannot call proposeOwnership", async () => {
-        try {
-            await owned.proposeOwnership(someoneaddr, { from: someoneaddr });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(owned.proposeOwnership(someoneaddr, { from: someoneaddr }));
     });
 
     it("address non proposed for new membership cannot call acceptOwnership", async () => {
-        await owned.proposeOwnership(owner2);
-        try {
-            await owned.acceptOwnership({ from: someoneaddr });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(owned.acceptOwnership({ from: owner2 }));
     });
 
     it("ownership can be removed", async () => {
@@ -97,20 +76,10 @@ contract("Owned", (accounts) => {
     });
 
     it("ownership cannot be removed without using 0xdac parameter", async () => {
-        try {
-            await owned.removeOwnership(0xdac1);
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(owned.removeOwnership(0xdac1));
     });
 
     it("ownership cannot be removed by non-owner", async () => {
-        try {
-            await owned.removeOwnership(0xdac, { from: someoneaddr });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(owned.removeOwnership(0xdac, { from: someoneaddr }));
     });
 });
