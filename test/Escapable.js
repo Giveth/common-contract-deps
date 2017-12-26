@@ -38,12 +38,7 @@ contract("Escapable", (accounts) => {
     // / --- changeHatchEscapeCaller
 
     it("prevent non-authorized call to changeHatchEscapeCaller()", async () => {
-        try {
-            await escapable.changeHatchEscapeCaller(someoneaddr, { from: someoneaddr });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(escapable.changeHatchEscapeCaller(someoneaddr, { from: someoneaddr }));
     });
 
     it("changeHatchEscapeCaller() changes the permission", async () => {
@@ -68,12 +63,7 @@ contract("Escapable", (accounts) => {
     });
 
     it("prevent non-authorized call to escapeHatch()", async () => {
-        try {
-            await escapable.escapeHatch(0, { from: someoneaddr });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(escapable.escapeHatch(0, { from: someoneaddr }));
     });
 
     it("escapeHatch(0x0) sends ether amount to the destination", async () => {
@@ -115,12 +105,7 @@ contract("Escapable", (accounts) => {
         );
         assert.equal(await nonEtherEscapable.isTokenEscapable(0x0), false);
         assert.equal(await nonEtherEscapable.isTokenEscapable(escapable.address), true);
-        try {
-            await nonEtherEscapable.escapeHatch(0, { from: escapeHatchCaller });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(nonEtherEscapable.escapeHatch(0, { from: escapeHatchCaller }));
     });
 
     it("can blacklist escape of tokens", async () => {
@@ -135,12 +120,9 @@ contract("Escapable", (accounts) => {
         assert.equal(await nonTokenEscapable.isTokenEscapable(0x0), true);
         assert.equal(await nonTokenEscapable.isTokenEscapable(token.address), false);
 
-        try {
-            await nonTokenEscapable.escapeHatch(token.address, { from: escapeHatchCaller });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await assertFail(
+            nonTokenEscapable.escapeHatch(token.address, { from: escapeHatchCaller }),
+        );
     });
 
     it("throws if token transfer function returns false", async () => {
@@ -148,14 +130,9 @@ contract("Escapable", (accounts) => {
         await token.transfer(escapable.address, 1000);
         assert.equal(await token.balanceOf(escapable.address), 1000);
 
-        try {
-            await token.setFailOnTransfer(true);
-            await escapable.escapeHatch(token.address, {
-                from: escapeHatchCaller,
-            });
-        } catch (error) {
-            return assertFail(error);
-        }
-        assert.fail("should have thrown before");
+        await token.setFailOnTransfer(true);
+        await assertFail(
+            escapable.escapeHatch(token.address, { from: escapeHatchCaller }),
+        );
     });
 });

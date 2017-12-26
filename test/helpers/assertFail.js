@@ -1,11 +1,11 @@
 /* global assert */
 
-module.exports = async function assertFail(callback) {
-    let web3ErrorThrown = false;
+module.exports = async (callback) => {
     try {
-        await callback();
+        await callback;
     } catch (error) {
-        if (error.message.search("invalid opcode")) web3ErrorThrown = true;
+        if (error.message.search("VM Exception while processing transaction") !== -1) return;
+        throw error;
     }
-    assert.ok(web3ErrorThrown, "Transaction should fail");
+    assert(false, "Transaction should fail");
 };
