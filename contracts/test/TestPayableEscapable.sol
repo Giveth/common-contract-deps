@@ -1,15 +1,14 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 
 import "../Escapable.sol";
 
-
 contract TestPayableEscapable is Escapable {
 
-    function TestPayableEscapable(address _blackListToken, address _escapeHatchCaller, address _escapeHatchDestination) 
+    function TestPayableEscapable(address _blackListToken, address _escapeHatchCaller, address _escapeHatchDestination) public
         Escapable(_escapeHatchCaller,_escapeHatchDestination) {
         	blacklistEscapeToken(_blackListToken);
     }
 
-    function () payable {
+    function () public payable {
     }
 }

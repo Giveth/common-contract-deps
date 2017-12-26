@@ -1,4 +1,4 @@
-pragma solidity ^0.4.15;
+pragma solidity ^0.4.18;
 /*
     Copyright 2016, Jordi Baylina
     Contributor: Adrià Massanet <adria@codecontext.io>
@@ -66,7 +66,7 @@ contract Escapable is Owned {
     /// @param _token the token address being queried
     /// @return False if `_token` is in the blacklist and can't be taken out of
     ///  the contract via the `escapeHatch()`
-    function isTokenEscapable(address _token) constant public returns (bool) {
+    function isTokenEscapable(address _token) view public returns (bool) {
         return !escapeBlacklist[_token];
     }
 
