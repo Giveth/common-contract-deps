@@ -41,7 +41,9 @@
         "react/jsx-indent": [ 2, 4 ],
 
         // one var
-        "one-var": 0
+        "one-var": 0,
 
+        // line breaks for windows or unix
+        "linebreak-style": 0
     }
 }

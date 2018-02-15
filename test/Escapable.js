@@ -22,9 +22,9 @@ contract("Escapable", (accounts) => {
 
     beforeEach(async () => {
         escapable = await TestPayableEscapable.new(
-          sometoken,
-          escapeHatchCaller, // _escapeHatchCaller
-          escapeHatchDestination, // _escapeHatchDestination
+            sometoken,
+            escapeHatchCaller, // _escapeHatchCaller
+            escapeHatchDestination, // _escapeHatchDestination
         );
     });
 
@@ -77,8 +77,7 @@ contract("Escapable", (accounts) => {
         assert.equal(result.logs[ 0 ].event, "EscapeHatchCalled");
         assert.equal(result.logs[ 0 ].args.amount, "1");
 
-        assert.isTrue(
-            web3.eth.getBalance(escapeHatchDestination).equals(balance.plus(ONEWEI)));
+        assert.isTrue(web3.eth.getBalance(escapeHatchDestination).equals(balance.plus(ONEWEI)));
     });
 
     it("escapeHatch(_token) sends token amount to the destination", async () => {
@@ -99,9 +98,9 @@ contract("Escapable", (accounts) => {
 
     it("can blacklist escape of ethers", async () => {
         const nonEtherEscapable = await TestPayableEscapable.new(
-          0x0,
-          escapeHatchCaller, // _escapeHatchCaller
-          escapeHatchDestination, // _escapeHatchDestination
+            0x0,
+            escapeHatchCaller, // _escapeHatchCaller
+            escapeHatchDestination, // _escapeHatchDestination
         );
         assert.equal(await nonEtherEscapable.isTokenEscapable(0x0), false);
         assert.equal(await nonEtherEscapable.isTokenEscapable(escapable.address), true);
@@ -112,17 +111,15 @@ contract("Escapable", (accounts) => {
         const token = await TestToken.new(owner, 1000);
 
         const nonTokenEscapable = await TestPayableEscapable.new(
-          token.address,
-          escapeHatchCaller, // _escapeHatchCaller
-          escapeHatchDestination, // _escapeHatchDestination
+            token.address,
+            escapeHatchCaller, // _escapeHatchCaller
+            escapeHatchDestination, // _escapeHatchDestination
         );
 
         assert.equal(await nonTokenEscapable.isTokenEscapable(0x0), true);
         assert.equal(await nonTokenEscapable.isTokenEscapable(token.address), false);
 
-        await assertFail(
-            nonTokenEscapable.escapeHatch(token.address, { from: escapeHatchCaller }),
-        );
+        await assertFail(nonTokenEscapable.escapeHatch(token.address, { from: escapeHatchCaller }));
     });
 
     it("throws if token transfer function returns false", async () => {
@@ -131,8 +128,6 @@ contract("Escapable", (accounts) => {
         assert.equal(await token.balanceOf(escapable.address), 1000);
 
         await token.setFailOnTransfer(true);
-        await assertFail(
-            escapable.escapeHatch(token.address, { from: escapeHatchCaller }),
-        );
+        await assertFail(escapable.escapeHatch(token.address, { from: escapeHatchCaller }));
     });
 });

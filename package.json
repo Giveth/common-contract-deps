@@ -12,34 +12,37 @@
     },
     "homepage": "https://github.com/giveth/common-contract-deps",
     "devDependencies": {
-        "async": "^2.5.0",
-        "bignumber.js": "^4.0.2",
-        "eslint": "^3.19.0",
-        "eslint-config-airbnb": "^14.1.0",
-        "eslint-config-standard": "^10.2.1",
-        "eslint-plugin-import": "^2.2.0",
-        "eslint-plugin-jsx-a11y": "^4.0.0",
-        "eslint-plugin-mocha": "^4.8.0",
-        "eslint-plugin-node": "^4.2.2",
-        "eslint-plugin-promise": "^3.5.0",
-        "eslint-plugin-react": "^6.10.3",
+        "async": "^2.6.0",
+        "bignumber.js": "^6.0.0",
+        "eslint": "^4.17.0",
+        "eslint-config-airbnb": "^16.1.0",
+        "eslint-config-standard": "^11.0.0-beta.0",
+        "eslint-plugin-import": "^2.8.0",
+        "eslint-plugin-jsx-a11y": "^6.0.3",
+        "eslint-plugin-mocha": "^4.11.0",
+        "eslint-plugin-node": "^6.0.0",
+        "eslint-plugin-promise": "^3.6.0",
+        "eslint-plugin-react": "^7.6.1",
         "eslint-plugin-standard": "^3.0.1",
         "random-bytes": "^1.0.0",
-        "solc": "^0.4.15",
+        "solc": "^0.4.20",
         "solidity-parser": "^0.4.0",
-        "web3": "^0.19.1"
+        "web3": "^1.0.0-beta.30"
     },
     "dependencies": {
-        "babel-eslint": "^8.0.1",
-        "codecov": "^2.3.0",
-        "jsonfile": "^3.0.1",
-        "solidity-coverage": "^0.4.7",
-        "solium": "^0.5.5",
-        "truffle": "^4.0.4"
+        "babel-eslint": "^8.2.1",
+        "codecov": "^3.0.0",
+        "jsonfile": "^4.0.0",
+        "solidity-coverage": "^0.4.9",
+        "solium": "^1.1.5",
+        "truffle": "^4.0.6"
     },
     "main": "truffle.js",
     "directories": {
         "test": "test"
+    },
+    "engines": {
+        "node": ">= 7.6"
     },
     "scripts": {
         "test": "truffle test",
