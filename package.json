@@ -1,6 +1,6 @@
 {
     "name": "giveth-common-contracts",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "description": "Giveth common contracts dependencies",
     "repository": {
         "type": "git",
