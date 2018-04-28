@@ -1,4 +1,4 @@
-pragma solidity ^0.4.19;
+pragma solidity ^0.4.22;
 /*
     Copyright 2016, Jordi Baylina
     Contributor: Adrià Massanet <adria@codecontext.io>
@@ -41,7 +41,7 @@ contract Escapable is Owned {
     ///  Multisig) to send the ether held in this contract; if a neutral address
     ///  is required, the WHG Multisig is an option:
     ///  0x8Ff920020c8AD673661c8117f2855C384758C572 
-    function Escapable(address _escapeHatchCaller, address _escapeHatchDestination) public {
+    constructor(address _escapeHatchCaller, address _escapeHatchDestination) public {
         escapeHatchCaller = _escapeHatchCaller;
         escapeHatchDestination = _escapeHatchDestination;
     }
@@ -49,7 +49,10 @@ contract Escapable is Owned {
     /// @dev The addresses preassigned as `escapeHatchCaller` or `owner`
     ///  are the only addresses that can call a function with this modifier
     modifier onlyEscapeHatchCallerOrOwner {
-        require ((msg.sender == escapeHatchCaller)||(msg.sender == owner));
+        require (
+            (msg.sender == escapeHatchCaller)||(msg.sender == owner),
+            "err_escapableInvalidCaller"
+        );
         _;
     }
 
@@ -59,7 +62,8 @@ contract Escapable is Owned {
     /// @param _token the token contract address that is to be blacklisted 
     function blacklistEscapeToken(address _token) internal {
         escapeBlacklist[_token] = true;
-        EscapeHatchBlackistedToken(_token);
+
+        emit EscapeHatchBlackistedToken(_token);
     }
 
     /// @notice Checks to see if `_token` is in the blacklist of tokens
@@ -73,23 +77,23 @@ contract Escapable is Owned {
     /// @notice The `escapeHatch()` should only be called as a last resort if a
     /// security issue is uncovered or something unexpected happened
     /// @param _token to transfer, use 0x0 for ether
-    function escapeHatch(address _token) public onlyEscapeHatchCallerOrOwner {   
-        require(escapeBlacklist[_token]==false);
+    function escapeHatch(address _token) public onlyEscapeHatchCallerOrOwner {
+        require(escapeBlacklist[_token]==false,"err_escapableBlacklistedToken");
 
         uint256 balance;
 
         /// @dev Logic for ether
         if (_token == 0x0) {
-            balance = this.balance;
+            balance = address(this).balance;
             escapeHatchDestination.transfer(balance);
-            EscapeHatchCalled(_token, balance);
+            emit EscapeHatchCalled(_token, balance);
             return;
         }
         /// @dev Logic for tokens
         ERC20 token = ERC20(_token);
         balance = token.balanceOf(this);
-        require(token.transfer(escapeHatchDestination, balance));
-        EscapeHatchCalled(_token, balance);
+        require(token.transfer(escapeHatchDestination, balance),"err_escapableTransfer");
+        emit EscapeHatchCalled(_token, balance);
     }
 
     /// @notice Changes the address assigned to call `escapeHatch()`

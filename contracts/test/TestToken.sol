@@ -13,7 +13,7 @@ contract TestToken is ERC20 {
     mapping(address => uint) balances;
     mapping (address => mapping (address => uint)) allowed;
 
-    function TestToken(address _addr, uint256 _amount) public {
+    constructor(address _addr, uint256 _amount) public {
         balances[_addr] = _amount;
         totalSupply_ = _amount;
     }
@@ -22,7 +22,7 @@ contract TestToken is ERC20 {
         failOnTransfer = _fail;
     }
 
-    function totalSupply() public constant returns (uint256 supply) {
+    function totalSupply() public view returns (uint256 supply) {
         return totalSupply_;
     }
 
@@ -32,7 +32,7 @@ contract TestToken is ERC20 {
         }
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
-        Transfer(msg.sender, _to, _value);
+        emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
@@ -41,26 +41,26 @@ contract TestToken is ERC20 {
             return false;
         }
 
-        var _allowance = allowed[_from][msg.sender];
+        uint256 _allowance = allowed[_from][msg.sender];
 
         balances[_from] = balances[_from].sub(_value);
         balances[_to] = balances[_to].add(_value);
         allowed[_from][msg.sender] = _allowance.sub(_value);
-        Transfer(_from, _to, _value);
+        emit Transfer(_from, _to, _value);
         return true;
     }
 
-    function balanceOf(address _owner) public constant returns (uint256 balance) {
+    function balanceOf(address _owner) public view returns (uint256 balance) {
         return balances[_owner];
     }
 
     function approve(address _spender, uint256 _value) public returns (bool success) {
         allowed[msg.sender][_spender] = _value;
-        Approval(msg.sender, _spender, _value);
+        emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
-    function allowance(address _owner, address _spender) public constant returns (uint256 remaining) {
+    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
         return allowed[_owner][_spender];
     }
 
