@@ -48,7 +48,6 @@
         "test": "truffle test",
         "lint": "solium --dir contracts && eslint test",
         "coverage": "./node_modules/.bin/solidity-coverage",
-        "qa": "npm run lint && npm run coverage",
-        "travis": "npm run qa && ./node_modules/.bin/codecov"
+        "travis": "./node_modules/.bin/solidity-coverage"
     }
 }
