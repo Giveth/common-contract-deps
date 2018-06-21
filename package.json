@@ -25,15 +25,13 @@
         "eslint-plugin-react": "^7.6.1",
         "eslint-plugin-standard": "^3.0.1",
         "random-bytes": "^1.0.0",
-        "solc": "^0.4.20",
-        "solidity-parser": "^0.4.0",
         "web3": "^1.0.0-beta.30"
     },
     "dependencies": {
         "babel-eslint": "^8.2.1",
         "codecov": "^3.0.0",
         "jsonfile": "^4.0.0",
-        "solidity-coverage": "^0.4.9",
+        "solidity-coverage": "^0.5.4",
         "solium": "^1.1.5",
         "truffle": "^4.1.7"
     },
