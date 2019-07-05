@@ -1936,9 +1936,9 @@ growl@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.9.2.tgz#0ea7743715db8d8de2c5ede1775e1b45ac85c02f"
 
-handlebars@^4.0.1:
-  version "4.0.11"
-  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.0.11.tgz#630a35dfe0294bc281edae6ffc5d329fc7982dcc"
+handlebars@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.0.tgz#630a35dfe0294bc281edae6ffc5d329fc7982dcc"
   dependencies:
     async "^1.4.0"
     optimist "^0.6.1"
@@ -2363,7 +2363,7 @@ istanbul@^0.4.5:
     escodegen "1.8.x"
     esprima "2.7.x"
     glob "^5.0.15"
-    handlebars "^4.0.1"
+    handlebars "^4.1.0"
     js-yaml "3.x"
     mkdirp "0.5.x"
     nopt "3.x"
